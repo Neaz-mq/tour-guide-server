@@ -32,6 +32,9 @@ async function run() {
 
     const tourCollection = client.db('tourDB').collection('tours');
 
+    const userCollection = client.db('tourDB').collection('user');
+
+
     app.get('/tours', async (req, res) => {
       const cursor = tourCollection.find();
       const result = await cursor.toArray();
@@ -60,6 +63,20 @@ async function run() {
 
 
 
+// user related apis
+
+app.get('/user', async(req, res) =>{
+  const cursor = userCollection.find();
+  const users = await cursor.toArray();
+  res.send(users)
+ 
+})
+app.post('/user', async(req, res) =>{
+  const user = req.body;
+  console.log(user);
+  const result = await userCollection.insertOne(user);
+  res.send(result);
+})
 
 
 
