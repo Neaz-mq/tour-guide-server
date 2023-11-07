@@ -90,6 +90,13 @@ async function run() {
 
     })
 
+    app.delete('/service/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await serviceCollection.deleteOne(query);
+      res.send(result);
+  })
+
 
 
 // user related apis
