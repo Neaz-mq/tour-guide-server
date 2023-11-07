@@ -32,6 +32,8 @@ async function run() {
 
     const tourCollection = client.db('tourDB').collection('tours');
 
+    const serviceCollection = client.db('tourDB').collection('service');
+
     const userCollection = client.db('tourDB').collection('user');
 
 
@@ -58,6 +60,33 @@ async function run() {
       const result = await tourCollection.findOne(query, options);
       res.send(result);
 
+
+    })
+
+
+    // Service
+
+    app.get('/service', async (req, res) => {
+      const cursor = serviceCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
+
+    app.get('/service/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await serviceCollection.findOne(query);
+      res.send(result);
+
+
+    })
+
+    app.post('/service', async (req, res) => {
+      const newService = req.body;
+      console.log(newService);
+      const result = await serviceCollection.insertOne(newService);
+      res.send(result);
 
     })
 
