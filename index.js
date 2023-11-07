@@ -73,19 +73,44 @@ async function run() {
 
     })
 
-    // app.get('/service', async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) }
-    //   const result = await serviceCollection.findOne(query);
-    //   res.send(result);
+
+    
 
 
-    // })
+    app.get('/service/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await serviceCollection.findOne(query);
+      res.send(result);
+
+
+    })
 
     app.post('/service', async (req, res) => {
       const newService = req.body;
       console.log(newService);
       const result = await serviceCollection.insertOne(newService);
+      res.send(result);
+
+    })
+
+    app.put('/service/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updateService = req.body;
+      const service = {
+        $set: {
+          photo: updateService.photo,
+          title: updateService.title,
+          name: updateService.name,
+          email: updateService.email,
+          price: updateService.price,
+          area: updateService.area,
+          details: updateService.details
+        },
+      }
+      const result = await serviceCollection.updateOne(filter, service, options);
       res.send(result);
 
     })
